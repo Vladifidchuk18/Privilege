@@ -1,0 +1,24 @@
+#!/bin/bash
+
+FILE=$(ls -la -R $1 | grep root | awk '{ print $3,$4,$9 }')
+RUTINE=1
+ROOTED='1'
+for x in $FILE; do
+#	echo $x
+	POSITION=$(($RUTINE % 3))
+#	echo $POSITION
+	if [ $POSITION -ne 0 ]; then
+		if [ $x != root ]; then
+			ROOTED='0'
+		fi
+	else
+		if [ $ROOTED -eq '1' ]; then
+			if [[ $x != '..' && $x != '.' ]]; then
+				echo $x
+			fi
+			ROOTED='1';
+		fi
+	fi
+	RUTINE=$(($RUTINE + 1))
+done
+
